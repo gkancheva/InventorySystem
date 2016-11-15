@@ -1,0 +1,116 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+<h:head>
+	<link href="#{application.contextPath}/css/common.css" rel="stylesheet" type="text/css" />
+	<link href="#{application.contextPath}/css/bootstrap.css" rel="stylesheet" type="text/css" />
+</h:head>
+<title>#{msgs['default.title']}</title>
+<body id="commonBody">
+	<h:form styleClass="commonForm">
+		<h:panelGroup layout="block">
+			<b>Welcome #{LOGGED_USER.firstName} #{LOGGED_USER.lastName}</b>
+			<p:commandButton ajax="false" action="#{loginBean.logout()}"
+				styleClass="btn btn-info" value="#{msgs['button.logout']}"
+				style="margin: 5% 5% 5% 5%;" />
+			<p:commandButton ajax="false" action="#{listItemsBean.createAction()}"
+				styleClass="btn btn-info" value="#{msgs['button.create']}"
+				style="margin: 5% 5% 5% 5%;" />
+		</h:panelGroup>
+
+		<h:panelGroup layout="block">
+			<p:dataTable 
+				var="item" 
+				value="#{listItemsBean.itemsBean.items}" 
+				rows="10"
+				widgetVar="itemsTable" paginator="true"
+				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				paginatorPosition="bottom"
+				rowsPerPageTemplate="5,10,15" 
+				styleClass="listItemsTable"
+				id="listItemsTable" >
+
+				<f:facet name="header">
+					<p:outputPanel>
+						<h:outputText value="Search all fields:" />
+						<p:inputText id="globalFilter" onkeyup="PF('itemsTable').filter()"
+							style="width:150px" placeholder="Enter keyword" />
+							<h:commandLink id="excel">
+						<h:graphicImage value="/img/excel.png" />
+						<p:dataExporter type="xls" target="listItemsTable" fileName="items" />
+					</h:commandLink>
+
+					<h:commandLink id="pdf">
+						<p:graphicImage value="/img/pdf.png" />
+						<p:dataExporter type="pdf" target="listItemsTable" fileName="items" />
+					</h:commandLink>
+					</p:outputPanel>
+				</f:facet>
+
+				<p:column headerText="#{msgs['item.name']}"
+					filterBy="#{item.name}" filterMatchMode="startsWith">
+					<h:outputText value="#{item.name}" />
+				</p:column>
+
+				<p:column headerText="#{msgs['item.description']}"
+					filterBy="#{item.description}"
+					filterMatchMode="startsWith">
+					<h:outputText value=" #{item.description}" />
+				</p:column>
+
+				<p:column headerText="#{msgs['item.typeOfProduct']}"
+					filterBy="#{item.typeOfProduct}"
+					filterMatchMode="startsWith">
+					<h:outputText value=" #{item.typeOfProduct}" />
+				</p:column>
+
+				<p:column headerText="#{msgs['item.catalogueNumber']}"
+					filterBy="#{item.catalogueNumber}"
+					filterMatchMode="startsWith">
+					<h:outputText value=" #{item.catalogueNumber}" />
+				</p:column>
+				
+				<p:column headerText="#{msgs['item.supplier']}"
+					filterBy="#{item.supplier}"
+					filterMatchMode="startsWith">
+					<h:outputText value=" #{item.supplier}" />
+				</p:column>
+				
+				<p:column headerText="#{msgs['item.project']}"
+					filterBy="#{item.project}"
+					filterMatchMode="startsWith">
+					<h:outputText value=" #{item.project}" />
+				</p:column>
+				
+				<p:column headerText="#{msgs['item.purchasePrice']}">
+					<h:outputText value=" #{item.purchasePrice}" />
+				</p:column>
+				
+				<p:column headerText="#{msgs['item.quantityOnStock']}">
+					<h:outputText value=" #{item.quantity}" />
+				</p:column>
+				
+				<p:column exportable="false" styleClass="colType" style="width=70px;">
+					<f:facet name="header">
+						<h:outputText value="#{msgs['columns_actions']}"/>
+					</f:facet>
+					<p:commandLink ajax="false" process="@this" immediate="true"
+						action="#{listItemsBean.editAction()}" id="editButton">
+						<f:param name="name" value="#{item.name}"/>
+						<h:graphicImage value="/img/edit-icon.png"
+							title="#{msgs['button.edit']}" alt="#{msgs['button.edit']}" 
+							width="20" height="20"/>
+					</p:commandLink>
+				</p:column>
+			</p:dataTable>
+			
+		</h:panelGroup>
+	</h:form>
+</body>
+</html>
