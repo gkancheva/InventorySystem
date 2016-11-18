@@ -4,9 +4,9 @@ import java.util.Iterator;
 import java.util.regex.Pattern;
 
 import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
@@ -14,7 +14,9 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
 
-import bg.softuni.dto.UserDto;
+import bg.softuni.entity.UserModel;
+import bg.softuni.service.UserService;
+import bg.softuni.web.utils.GeneralUtils;
 import bg.softuni.web.utils.MessageUtils;
 
 @ManagedBean(name = "editUserBean")
@@ -24,10 +26,10 @@ public class EditUserBean {
 	@Inject
 	HttpServletRequest request;
 
-	@ManagedProperty("#{usersBean}")
-	private UsersBean usersBean;
+	@EJB
+	UserService userService;
 
-	private UserDto user;
+	private UserModel user;
 
 	private static final String EMAIL_PATTERN = "^[_A-Za-z0-9-]+(\\."
 			+ "[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
@@ -35,41 +37,29 @@ public class EditUserBean {
 
 	@PostConstruct
 	public void init() {
-		String username = request.getParameter("username");
-
-		for (UserDto currUser : usersBean.getUsers()) {
-			if (currUser.getUsername().equals(username)) {
-				user = currUser;
-				break;
-			}
+		String id = request.getParameter("id");
+		if(StringUtils.isNotBlank(id) && StringUtils.isNumeric(id)) {
+			user = userService.findById(Long.valueOf(id));
 		}
 	}
 
 	public String updateAction() {
-
 		if (!validate()) {
 			return null;
 		}
-		
+		String encryptedPass = GeneralUtils.encodeSha256Password(user.getPassword());
+		user.setPassword(encryptedPass);
+		userService.update(user);
 		return "/page/listUsers?faces-redirect=true";
 	}
-
-	public UsersBean getUsersBean() {
-		return usersBean;
-	}
-
-	public void setUsersBean(UsersBean usersBean) {
-		this.usersBean = usersBean;
-	}
-
-	public UserDto getUser() {
+	
+	public UserModel getUser() {
 		return user;
 	}
-
-	public void setUser(UserDto user) {
+	
+	public void setUser(UserModel user) {
 		this.user = user;
 	}
-
 
 	protected boolean validate() {
 		boolean hasErrors = false;

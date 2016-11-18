@@ -1,37 +1,46 @@
-package bg.softuni.dto;
+package bg.softuni.entity;
 
-import java.io.Serializable;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
-public class ItemDto implements Serializable {
+import bg.softuni.entity.base.BaseDomainObject;
 
+@Entity
+@Table(name = "ITEMS")
+public class ItemModel extends BaseDomainObject{
 	private static final long serialVersionUID = 1L;
 
 	private String name;
 	private String description;
 	private String typeOfProduct;
-	private String catalogueNumber;
+	private String catalogNb;
 	private String supplier;
-	private String project;
 	private Double purchasePrice;
 	private Integer quantity;
+	private ProjectModel project;
 
-	public ItemDto() {
+	public ItemModel() {
 		super();
 	}
 
-	public ItemDto(String name, String description, String typeOfProduct, String catalogueNumber, String supplier,
-			String project, Double purchasePrice, Integer quantity) {
+	public ItemModel(Long id, String name, String description, String typeOfProduct, String catNb, String supplier,
+			ProjectModel project, Double purchasePrice, Integer quantity) {
 		super();
+		this.id = id;
 		this.name = name;
 		this.description = description;
 		this.typeOfProduct = typeOfProduct;
-		this.catalogueNumber = catalogueNumber;
+		this.catalogNb = catNb;
 		this.supplier = supplier;
 		this.project = project;
 		this.purchasePrice = purchasePrice;
 		this.quantity = quantity;
 	}
 
+	@Column(name = "name", length = 200, nullable = false)
 	public String getName() {
 		return name;
 	}
@@ -40,6 +49,7 @@ public class ItemDto implements Serializable {
 		this.name = name;
 	}
 
+	@Column(name = "description", length = 400, nullable = false)
 	public String getDescription() {
 		return description;
 	}
@@ -48,6 +58,7 @@ public class ItemDto implements Serializable {
 		this.description = description;
 	}
 
+	@Column(name = "type_product", length = 200, nullable = false)
 	public String getTypeOfProduct() {
 		return typeOfProduct;
 	}
@@ -56,14 +67,16 @@ public class ItemDto implements Serializable {
 		this.typeOfProduct = typeOfProduct;
 	}
 
-	public String getCatalogueNumber() {
-		return catalogueNumber;
+	@Column(name = "catalog_nb_sup", length = 100, nullable = false)
+	public String getCatalogNb() {
+		return catalogNb;
 	}
 
-	public void setCatalogueNumber(String catalogueNumber) {
-		this.catalogueNumber = catalogueNumber;
+	public void setCatalogNb(String catNb) {
+		this.catalogNb = catNb;
 	}
 
+	@Column(name = "supplier", length = 200, nullable = false)
 	public String getSupplier() {
 		return supplier;
 	}
@@ -72,14 +85,17 @@ public class ItemDto implements Serializable {
 		this.supplier = supplier;
 	}
 
-	public String getProject() {
+	@JoinColumn(name = "project_id", referencedColumnName = "id")
+	@ManyToOne
+	public ProjectModel getProject() {
 		return project;
 	}
 
-	public void setProject(String project) {
+	public void setProject(ProjectModel project) {
 		this.project = project;
 	}
 
+	@Column(name = "purchase_price", nullable = false)
 	public Double getPurchasePrice() {
 		return purchasePrice;
 	}
@@ -88,6 +104,7 @@ public class ItemDto implements Serializable {
 		this.purchasePrice = purchasePrice;
 	}
 
+	@Column(name = "quantity", nullable = false)
 	public Integer getQuantity() {
 		return quantity;
 	}
@@ -95,5 +112,4 @@ public class ItemDto implements Serializable {
 	public void setQuantity(Integer quantity) {
 		this.quantity = quantity;
 	}
-	
 }

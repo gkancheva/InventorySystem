@@ -13,7 +13,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import bg.softuni.dto.UserDto;
+import bg.softuni.entity.UserModel;
 
 public class AuthenticationFilter implements Filter, Serializable {
 
@@ -24,7 +24,6 @@ public class AuthenticationFilter implements Filter, Serializable {
 	public static final String PATH_LOGIN = "/page/login.html";
 	public static final String PATH_LOGOUT = "/page/logout.jsp";
 	
-
 	public void init(FilterConfig filterConfig) throws ServletException {
 
 	}
@@ -57,7 +56,7 @@ public class AuthenticationFilter implements Filter, Serializable {
 		}
 
 		HttpSession session = httpRequest.getSession();
-		UserDto loggedUser = (UserDto) session.getAttribute("LOGGED_USER");
+		UserModel loggedUser = (UserModel) session.getAttribute("LOGGED_USER");
 
 		if (loggedUser == null) {
 			RequestDispatcher requestDispatcher = request.getRequestDispatcher(PATH_LOGIN);

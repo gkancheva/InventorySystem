@@ -1,21 +1,39 @@
 package bg.softuni.web.beans;
 
+import java.util.List;
+
 import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.commons.lang3.StringUtils;
+
+import bg.softuni.entity.ItemModel;
+import bg.softuni.service.ItemService;
 
 @ManagedBean(name = "listItemsBean")
 @ViewScoped
 public class ListItemsBean {
-
-	@ManagedProperty("#{itemsBean}")
-	private ItemsBean itemsBean;
-
+	
+	@Inject
+	HttpServletRequest request;
+	
+	@EJB
+	ItemService itemService;
+	
+	private Long projectId;
+	
 	@PostConstruct
-	public void init() {
+	public void init(){
+		String receivedId = request.getParameter("projectId");
+		if(StringUtils.isNotBlank(receivedId) && StringUtils.isNumeric(receivedId)) {
+			projectId = Long.valueOf(receivedId);
+		}
 	}
-
+	
 	public String editAction() {
 		return "/page/editItem";
 	}
@@ -23,13 +41,8 @@ public class ListItemsBean {
 	public String createAction() {
 		return "/page/createItem";
 	}
-
-	public ItemsBean getItemsBean() {
-		return itemsBean;
+	
+	public List<ItemModel> findAllItems() {
+		return itemService.findAllItemsByProjectId(projectId);
 	}
-
-	public void setItemsBean(ItemsBean itemsBean) {
-		this.itemsBean = itemsBean;
-	}
-
 }

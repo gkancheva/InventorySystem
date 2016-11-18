@@ -4,9 +4,9 @@ import java.util.Iterator;
 import java.util.regex.Pattern;
 
 import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.inject.Inject;
@@ -14,7 +14,9 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
 
-import bg.softuni.dto.UserDto;
+import bg.softuni.entity.UserModel;
+import bg.softuni.service.UserService;
+import bg.softuni.web.utils.GeneralUtils;
 import bg.softuni.web.utils.MessageUtils;
 
 @ManagedBean(name = "createUserBean")
@@ -24,10 +26,10 @@ public class CreateUserBean {
 	@Inject
 	HttpServletRequest request;
 
-	@ManagedProperty("#{usersBean}")
-	private UsersBean usersBean;
-
-	private UserDto user;
+	@EJB
+	UserService userService;
+	
+	private UserModel user;
 
 	private static final String EMAIL_PATTERN = "^[_A-Za-z0-9-]+(\\."
 			+ "[_A-Za-z0-9-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*" + "(\\.[A-Za-z]{2,})$";
@@ -35,33 +37,24 @@ public class CreateUserBean {
 
 	@PostConstruct
 	public void init() {
-		user = new UserDto();
+		user = new UserModel();
 	}
 
 	public String createAction() {
-
 		if (!validate()) {
 			return null;
 		}
-		
-		usersBean.getUsers().add(user);
-		
+		String encryptedPass = GeneralUtils.encodeSha256Password(user.getPassword());
+		user.setPassword(encryptedPass);
+		userService.save(user);
 		return "/page/listUsers?faces-redirect=true";
 	}
 
-	public UsersBean getUsersBean() {
-		return usersBean;
-	}
-
-	public void setUsersBean(UsersBean usersBean) {
-		this.usersBean = usersBean;
-	}
-
-	public UserDto getUser() {
+	public UserModel getUser() {
 		return user;
 	}
 
-	public void setUser(UserDto user) {
+	public void setUser(UserModel user) {
 		this.user = user;
 	}
 
@@ -117,7 +110,6 @@ public class CreateUserBean {
 				return true;
 			}
 		}
-
 		return false;
 	}
 

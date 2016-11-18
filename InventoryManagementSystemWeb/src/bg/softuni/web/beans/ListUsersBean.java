@@ -1,17 +1,22 @@
 package bg.softuni.web.beans;
 
+import java.util.List;
+
 import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+
+import bg.softuni.entity.UserModel;
+import bg.softuni.service.UserService;
 
 @ManagedBean(name = "listUsersBean")
 @ViewScoped
 public class ListUsersBean {
-
-	@ManagedProperty("#{usersBean}")
-	private UsersBean usersBean;
-
+	
+	@EJB
+	UserService userService;
+	
 	@PostConstruct
 	public void init() {
 	}
@@ -23,13 +28,9 @@ public class ListUsersBean {
 	public String createAction() {
 		return "/page/createUser";
 	}
-
-	public UsersBean getUsersBean() {
-		return usersBean;
-	}
-
-	public void setUsersBean(UsersBean usersBean) {
-		this.usersBean = usersBean;
+	
+	public List<UserModel> getAllUsers() {
+		return userService.findAllUsers();
 	}
 
 }

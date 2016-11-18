@@ -1,16 +1,17 @@
-package bg.softuni.web;
+package bg.softuni.web.beans;
 
 import java.io.Serializable;
 
 import javax.annotation.PostConstruct;
+import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 
-import bg.softuni.dto.UserDto;
-import bg.softuni.web.beans.UsersBean;
+import bg.softuni.entity.UserModel;
+import bg.softuni.service.UserService;
+import bg.softuni.web.utils.GeneralUtils;
 import bg.softuni.web.utils.MessageUtils;
 
 @ManagedBean(name = "loginBean")
@@ -22,13 +23,12 @@ public class LoginBean implements Serializable {
 	@Inject
 	private HttpServletRequest request;
 
+	@EJB 
+	UserService userService;
 	private String username;
 	private String password;
 
-	@ManagedProperty("#{usersBean}")
-	private UsersBean usersBean;
-
-	private static final String SUCCESS_LOGIN_REDIRECT = "/page/listItems?faces-redirect=true";
+	private static final String SUCCESS_LOGIN_REDIRECT = "/page/listProjects?faces-redirect=true";
 	private static final String LOGIN_PAGE_REDIRECT = "/page/login?faces-redirect=true";
 
 	@PostConstruct
@@ -37,12 +37,13 @@ public class LoginBean implements Serializable {
 	}
 
 	public String login() {
-		UserDto user = usersBean.validateUser(username, password);
-		if (user == null) {
+		String encryptedPass = GeneralUtils.encodeSha256Password(password);
+		UserModel userModel = userService.loginUser(username, encryptedPass);
+		if (userModel == null) {
 			MessageUtils.addErrorMessage("login.error.invalid.credentials");
 			return "";
 		} else {
-			request.getSession().setAttribute("LOGGED_USER", user);
+			request.getSession().setAttribute("LOGGED_USER", userModel);
 			return SUCCESS_LOGIN_REDIRECT;
 		}
 	}
@@ -66,14 +67,6 @@ public class LoginBean implements Serializable {
 
 	public void setPassword(String password) {
 		this.password = password;
-	}
-
-	public UsersBean getUsersBean() {
-		return usersBean;
-	}
-
-	public void setUsersBean(UsersBean usersBean) {
-		this.usersBean = usersBean;
 	}
 
 }

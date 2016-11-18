@@ -27,7 +27,7 @@
 		<h:panelGroup layout="block">
 			<p:dataTable 
 				var="item" 
-				value="#{listItemsBean.itemsBean.items}" 
+				value="#{listItemsBean.findAllItems()}" 
 				rows="10"
 				widgetVar="itemsTable" paginator="true"
 				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
@@ -61,35 +61,35 @@
 				<p:column headerText="#{msgs['item.description']}"
 					filterBy="#{item.description}"
 					filterMatchMode="startsWith">
-					<h:outputText value=" #{item.description}" />
+					<h:outputText value="#{item.description}" />
 				</p:column>
 
 				<p:column headerText="#{msgs['item.typeOfProduct']}"
 					filterBy="#{item.typeOfProduct}"
 					filterMatchMode="startsWith">
-					<h:outputText value=" #{item.typeOfProduct}" />
+					<h:outputText value="#{item.typeOfProduct}" />
 				</p:column>
 
-				<p:column headerText="#{msgs['item.catalogueNumber']}"
-					filterBy="#{item.catalogueNumber}"
+				<p:column headerText="#{msgs['item.catalogNb']}"
+					filterBy="#{item.catalogNb}"
 					filterMatchMode="startsWith">
-					<h:outputText value=" #{item.catalogueNumber}" />
+					<h:outputText value="#{item.catalogNb}" />
 				</p:column>
 				
 				<p:column headerText="#{msgs['item.supplier']}"
 					filterBy="#{item.supplier}"
 					filterMatchMode="startsWith">
-					<h:outputText value=" #{item.supplier}" />
+					<h:outputText value="#{item.supplier}" />
 				</p:column>
 				
 				<p:column headerText="#{msgs['item.project']}"
-					filterBy="#{item.project}"
+					filterBy="#{item.project.name}"
 					filterMatchMode="startsWith">
-					<h:outputText value=" #{item.project}" />
+					<h:outputText value="#{item.project.name}" />
 				</p:column>
 				
 				<p:column headerText="#{msgs['item.purchasePrice']}">
-					<h:outputText value=" #{item.purchasePrice}" />
+					<h:outputText value="#{item.purchasePrice}" />
 				</p:column>
 				
 				<p:column headerText="#{msgs['item.quantityOnStock']}">
@@ -109,7 +109,6 @@
 					</p:commandLink>
 				</p:column>
 			</p:dataTable>
-			
 		</h:panelGroup>
 	</h:form>
 </body>
