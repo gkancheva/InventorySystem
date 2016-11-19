@@ -22,6 +22,7 @@ public class AuthenticationFilter implements Filter, Serializable {
 	
 	public static final String PATH_INDEX = "/index.jsp";
 	public static final String PATH_LOGIN = "/page/login.html";
+	public static final String PATH_REGISTER = "/page/register.html";
 	public static final String PATH_LOGOUT = "/page/logout.jsp";
 	
 	public void init(FilterConfig filterConfig) throws ServletException {
@@ -43,7 +44,9 @@ public class AuthenticationFilter implements Filter, Serializable {
 
 		HttpServletRequest httpRequest = (HttpServletRequest) request;
 
-		String requestedPath = httpRequest.getRequestURI().substring(httpRequest.getContextPath().length());
+		String requestedPath = httpRequest
+				.getRequestURI()
+				.substring(httpRequest.getContextPath().length());
 
 		if (PATH_INDEX.equals(requestedPath)) {
 			chain.doFilter(request, response);
@@ -55,6 +58,11 @@ public class AuthenticationFilter implements Filter, Serializable {
 			return;
 		}
 
+		if (PATH_REGISTER.equals(requestedPath)) {
+			chain.doFilter(request, response);
+			return;
+		}
+		
 		HttpSession session = httpRequest.getSession();
 		UserModel loggedUser = (UserModel) session.getAttribute("LOGGED_USER");
 

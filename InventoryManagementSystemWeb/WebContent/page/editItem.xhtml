@@ -1,0 +1,91 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+<h:head>
+	<link href="#{application.contextPath}/css/common.css" rel="stylesheet"
+		type="text/css" />
+	<link href="#{application.contextPath}/css/bootstrap.css"
+		rel="stylesheet" type="text/css" />
+</h:head>
+<title>#{msgs['default.title']}</title>
+<body id="editBody">
+
+	<h:form styleClass="editForm">
+		<p:outputPanel styleClass="alert alert-danger errorPanel"
+			rendered="#{editItemBean.hasErrors()}">
+			<p:messages autoUpdate="false" id="editParamMessages"
+				globalOnly="false" styleClass="messagesStyle" />
+		</p:outputPanel>
+
+		<div style="" class="col-md-3 editBox">
+			<h3 class="text-primary bold upper headPaddings">
+				<h:outputText value="#{msgs['edit.item.title']}" escape="false" />
+			</h3>
+			<div class="box-field">
+				<label for="name">#{msgs['item.name']}</label>
+				<p:inputText id="name" name="name" styleClass="editInput"
+					value="#{editItemBean.item.name}" required="true"> 
+					<f:validateLength maximum="4000" />
+				</p:inputText>
+				<p:message for="name" />
+			</div><br/>
+			
+			<div class="box-field">
+				<label for="description">#{msgs['item.description']}</label>
+				<p:inputText id="description" name="description" styleClass="editInput"
+					value="#{editItemBean.item.description}" required="true">
+				</p:inputText>
+			</div><br/>
+			
+			<div class="box-field">
+				<label for="typeOfProduct">#{msgs['item.typeOfProduct']}</label>
+				<p:inputText id="typeOfProduct" name="typeOfProduct" styleClass="editInput"
+					value="#{editItemBean.item.typeOfProduct}" required="true">
+				</p:inputText>
+			</div><br/>
+			
+			<div class="box-field">
+				<label for="catalogNb">#{msgs['item.catalogNb']}</label>
+				<p:inputText id="catalogNb" name="catalogNb" styleClass="editInput"
+					value="#{editItemBean.item.catalogNb}" required="true">
+				</p:inputText>
+			</div><br/>
+			
+			<div class="box-field">
+				<label for="purchasePrice">#{msgs['item.purchasePrice']}</label>
+				<p:inputText id="purchasePrice" name="purchasePrice" styleClass="editInput"
+					value="#{editItemBean.item.purchasePrice}" required="true">
+				</p:inputText>
+			</div><br/>
+			
+			<div class="box-field">
+				<label for="supplier">#{msgs['item.supplier']}</label>
+				<p:inputText id="supplier" name="supplier" styleClass="editInput"
+					value="#{editItemBean.item.supplier}" required="true">
+				</p:inputText>
+			</div><br/>
+			
+			<div class="box-field">
+				<label for="quantity">#{msgs['item.quantity']}</label>
+				<p:inputText id="quantity" name="quantity" styleClass="editInput"
+					value="#{editItemBean.item.quantity}" required="true">
+				</p:inputText>
+			</div><br/>
+
+			<div class="box-field">
+				<p:commandButton ajax="false" id="editItemBtn"
+					styleClass="btn btn-primary editItemBtn"
+					value="#{msgs['button.edit']}"
+					action="#{editItemBean.updateAction}">
+				</p:commandButton>
+			</div>
+		</div>
+	</h:form>
+</body>
+</html>

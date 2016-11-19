@@ -20,8 +20,10 @@
 				styleClass="btn btn-info" value="#{msgs['button.logout']}"
 				style="margin: 5% 5% 5% 5%;" />
 			<p:commandButton ajax="false" action="#{listItemsBean.createAction()}"
-				styleClass="btn btn-info" value="#{msgs['button.create']}"
-				style="margin: 5% 5% 5% 5%;" />
+					styleClass="btn btn-info" value="#{msgs['button.create']}"
+					style="margin: 5% 5% 5% 5%;">
+				<f:param name="projectId" value="#{listItemsBean.getProjectId()}"/>
+			</p:commandButton>
 		</h:panelGroup>
 
 		<h:panelGroup layout="block">
@@ -92,7 +94,7 @@
 					<h:outputText value="#{item.purchasePrice}" />
 				</p:column>
 				
-				<p:column headerText="#{msgs['item.quantityOnStock']}">
+				<p:column headerText="#{msgs['item.quantity']}">
 					<h:outputText value=" #{item.quantity}" />
 				</p:column>
 				
@@ -102,7 +104,7 @@
 					</f:facet>
 					<p:commandLink ajax="false" process="@this" immediate="true"
 						action="#{listItemsBean.editAction()}" id="editButton">
-						<f:param name="name" value="#{item.name}"/>
+						<f:param name="id" value="#{item.id}"/>
 						<h:graphicImage value="/img/edit-icon.png"
 							title="#{msgs['button.edit']}" alt="#{msgs['button.edit']}" 
 							width="20" height="20"/>

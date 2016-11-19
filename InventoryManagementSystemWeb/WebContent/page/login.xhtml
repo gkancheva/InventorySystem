@@ -32,8 +32,7 @@
 				</p:inputText>
 			</h:panelGroup>
 
-			<br clear="all" />
-			<br/>
+			<br clear="all" /><br/>
 
 			<h:panelGroup layout="block">
 				<p:password value="#{loginBean.password}" id="password"
@@ -43,12 +42,20 @@
 				</p:password>
 			</h:panelGroup>
 
-			<br clear="all" />
-			<br />
+			<br clear="all" /><br/>
+			
 			<h:panelGroup layout="block">
 				<p:commandButton ajax="false" action="#{loginBean.login}"
 					styleClass="btn btn-info" value="#{msgs['button.login']}" />
 			</h:panelGroup>
+			
+			<br clear="all" /><br/>
+			
+			<h:panelGroup layout="block">
+				<p:commandButton ajax="false" action="#{loginBean.register()}"
+					styleClass="btn btn-info" value="#{msgs['button.register']}" />
+			</h:panelGroup>
+			
 		</h:form>
 	</h:panelGroup>
 </body>

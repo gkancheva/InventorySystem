@@ -44,7 +44,6 @@ public class ProjectServiceImpl implements ProjectService{
 	@Override
 	public void delete(ProjectModel entity) {
 		entityManager.remove(entity);
-		
 	}
 
 	@Override

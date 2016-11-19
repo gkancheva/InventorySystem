@@ -19,9 +19,9 @@ import bg.softuni.service.UserService;
 import bg.softuni.web.utils.GeneralUtils;
 import bg.softuni.web.utils.MessageUtils;
 
-@ManagedBean(name = "createUserBean")
+@ManagedBean(name = "registerUserBean")
 @ViewScoped
-public class CreateUserBean {
+public class RegisterUserBean {
 
 	@Inject
 	HttpServletRequest request;
@@ -41,13 +41,13 @@ public class CreateUserBean {
 	}
 
 	public String createAction() {
-		if (!validate()) {
+		if (validateInput()) {
 			return null;
 		}
 		String encryptedPass = GeneralUtils.encodeSha256Password(user.getPassword());
 		user.setPassword(encryptedPass);
 		userService.save(user);
-		return "/page/listUsers?faces-redirect=true";
+		return "/page/login?faces-redirect=true";
 	}
 
 	public UserModel getUser() {
@@ -58,8 +58,7 @@ public class CreateUserBean {
 		this.user = user;
 	}
 
-
-	protected boolean validate() {
+	protected boolean validateInput() {
 		boolean hasErrors = false;
 		if (StringUtils.isBlank(user.getUsername())) {
 			MessageUtils.addErrorMessage("error.required.username");
@@ -91,12 +90,7 @@ public class CreateUserBean {
 			MessageUtils.addErrorMessage("error.invalid.email");
 			hasErrors = true;
 		}
-
-		if (hasErrors) {
-			return false;
-		}
-
-		return true;
+		return hasErrors;
 	}
 
 	/**

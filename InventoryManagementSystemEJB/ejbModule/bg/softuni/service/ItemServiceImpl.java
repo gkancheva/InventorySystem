@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
+import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
 
@@ -30,32 +31,48 @@ public class ItemServiceImpl implements ItemService{
 
 	@Override
 	public ItemModel save(ItemModel entity) {
-		// TODO Auto-generated method stub
-		return null;
+		entityManager.persist(entity);
+		return entity;
 	}
 
 	@Override
 	public ItemModel update(ItemModel entity) {
-		// TODO Auto-generated method stub
-		return null;
+		entityManager.merge(entity);
+        entityManager.flush();
+        return entity;
 	}
 
 	@Override
 	public void delete(ItemModel entity) {
-		// TODO Auto-generated method stub
-		
+		entityManager.remove(entity);
 	}
 
 	@Override
 	public ItemModel findById(Long id) {
-		// TODO Auto-generated method stub
-		return null;
+		try {
+            ItemModel instance = entityManager.find(ItemModel.class, id);
+            return instance;
+        } catch (RuntimeException re) {
+            throw re;
+        }
 	}
 
 	@Override
 	public ItemModel checkIfItemExists(String name, Long id) {
-		// TODO Auto-generated method stub
-		return null;
+		StringBuffer query = new StringBuffer(
+                "SELECT model FROM ItemModel model WHERE UPPER(model.name) = UPPER(:em)");
+        if (id != null) {
+            query.append(" and model.id <> ").append(id);
+        }
+
+        Query q = entityManager.createQuery(query.toString());
+        q.setParameter("em", name);
+
+        try {
+            return (ItemModel) q.getSingleResult();
+        } catch (NoResultException nre) {
+            return null;
+        }
 	}
 
 }

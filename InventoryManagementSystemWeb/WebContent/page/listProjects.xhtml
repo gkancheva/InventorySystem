@@ -20,8 +20,10 @@
 				styleClass="btn btn-info" value="#{msgs['button.logout']}"
 				style="margin: 5% 5% 5% 5%;" />
 			<p:commandButton ajax="false" action="#{listProjectsBean.createAction()}"
-				styleClass="btn btn-info" value="#{msgs['button.create']}"
-				style="margin: 5% 5% 5% 5%;" />
+					styleClass="btn btn-info" value="#{msgs['button.create']}"
+					style="margin: 5% 5% 5% 5%;">
+				<f:param name="id" value="#{LOGGED_USER.id}"/>
+			</p:commandButton>
 		</h:panelGroup>
 
 		<h:panelGroup layout="block">

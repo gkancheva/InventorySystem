@@ -45,4 +45,8 @@ public class ListItemsBean {
 	public List<ItemModel> findAllItems() {
 		return itemService.findAllItemsByProjectId(projectId);
 	}
+	
+	public Long getProjectId() {
+		return projectId;
+	}
 }

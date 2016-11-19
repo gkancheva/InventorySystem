@@ -30,10 +30,11 @@ public class LoginBean implements Serializable {
 
 	private static final String SUCCESS_LOGIN_REDIRECT = "/page/listProjects?faces-redirect=true";
 	private static final String LOGIN_PAGE_REDIRECT = "/page/login?faces-redirect=true";
+	private static final String REGISTER_REDIRECT = "/page/register?faces-redirect=true";
 
 	@PostConstruct
 	public void init() {
-		// TODO
+		
 	}
 
 	public String login() {
@@ -46,6 +47,10 @@ public class LoginBean implements Serializable {
 			request.getSession().setAttribute("LOGGED_USER", userModel);
 			return SUCCESS_LOGIN_REDIRECT;
 		}
+	}
+	
+	public String register() {
+		return REGISTER_REDIRECT;
 	}
 
 	public String logout() {
