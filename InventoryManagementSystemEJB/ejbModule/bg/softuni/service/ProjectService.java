@@ -9,6 +9,7 @@ import bg.softuni.entity.ProjectModel;
 @Local
 public interface ProjectService {
 	List<ProjectModel> findAllProjects();
+	List<ProjectModel> findAllProjectsOfSpecUser(Long userId);
 	ProjectModel save(ProjectModel entity);
 	ProjectModel update(ProjectModel entity);
 	void delete(ProjectModel entity);

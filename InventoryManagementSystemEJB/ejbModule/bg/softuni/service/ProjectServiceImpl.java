@@ -27,6 +27,14 @@ public class ProjectServiceImpl implements ProjectService{
         Query q = entityManager.createQuery(query);
         return q.getResultList();
 	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public List<ProjectModel> findAllProjectsOfSpecUser(Long userId) {
+		String query = "SELECT model FROM ProjectModel model WHERE model.user.id = " + userId + " ORDER BY UPPER(model.name) ASC";
+        Query q = entityManager.createQuery(query);
+        return q.getResultList();
+	}
 
 	@Override
 	public ProjectModel save(ProjectModel entity) {
@@ -73,5 +81,4 @@ public class ProjectServiceImpl implements ProjectService{
             return null;
         }
 	}
-
 }
