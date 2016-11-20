@@ -1,4 +1,4 @@
-package bg.softuni.web.beans;
+package bg.softuni.web.beans.user;
 
 import java.util.List;
 

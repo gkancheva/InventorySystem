@@ -1,4 +1,4 @@
-package bg.softuni.web.beans;
+package bg.softuni.web.beans.project;
 
 import java.util.List;
 
@@ -8,8 +8,6 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
-
-import org.apache.commons.lang3.StringUtils;
 
 import bg.softuni.entity.ProjectModel;
 import bg.softuni.service.ProjectService;
@@ -24,18 +22,16 @@ public class ListProjectBean {
 	@EJB
 	ProjectService projectService;
 	
-	private Long userId;
-	
 	@PostConstruct
 	public void init(){
-		String id = request.getParameter("userId");
-		if(StringUtils.isNotBlank(id) && StringUtils.isNumeric(id)) {
-			userId = Long.valueOf(id);
-		}
 	}
 	
 	public String editAction() {
 		return "/page/editProject";
+	}
+	
+	public String deleteAction() {
+		return "/page/deleteProject";
 	}
 
 	public String createAction() {

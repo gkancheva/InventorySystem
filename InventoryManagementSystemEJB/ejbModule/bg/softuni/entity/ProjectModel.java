@@ -47,7 +47,7 @@ public class ProjectModel extends BaseDomainObject {
 	}
 	
 	@JoinColumn(name = "user_id", referencedColumnName = "id")
-	@ManyToOne
+	@ManyToOne()
 	public UserModel getUser() {
 		return user;
 	}

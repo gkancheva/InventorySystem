@@ -51,7 +51,11 @@ public class ProjectServiceImpl implements ProjectService{
 
 	@Override
 	public void delete(ProjectModel entity) {
-		entityManager.remove(entity);
+		Query query = entityManager.createQuery("DELETE FROM ProjectModel project WHERE id = :id");
+		query.setParameter("id", entity.getId()).executeUpdate();
+		if (entityManager.contains(entity)){
+			entityManager.remove(entity);
+		}
 	}
 
 	@Override

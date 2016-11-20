@@ -15,79 +15,67 @@
 </h:head>
 <title>#{msgs['default.title']}</title>
 <body id="editBody">
-	<h:form styleClass="editForm">
-		<p:outputPanel styleClass="alert alert-danger errorPanel"
-			rendered="#{createItemBean.hasErrors()}">
-			<p:messages autoUpdate="false" id="editParamMessages"
-				globalOnly="false" styleClass="messagesStyle" />
-		</p:outputPanel>
 
+	<h:form styleClass="editForm">
 		<div style="" class="col-md-3 editBox">
 			<h3 class="text-primary bold upper headPaddings">
-				<h:outputText value="#{msgs['create.item.title']}" escape="false" />
+				<h:outputText value="#{msgs['edit.item.title']}" escape="false" />
 			</h3>
 			<div class="box-field">
 				<label for="name">#{msgs['item.name']}</label>
 				<p:inputText id="name" name="name" styleClass="editInput"
-					value="#{createItemBean.item.name}" 
-					requiredMessage="#{msgs.code_error_required}">
+					value="#{editItemBean.item.name}" disabled="true">
 				</p:inputText>
+				<p:message for="name" />
 			</div><br/>
 			
 			<div class="box-field">
 				<label for="description">#{msgs['item.description']}</label>
 				<p:inputText id="description" name="description" styleClass="editInput"
-					value="#{createItemBean.item.description}" 
-					requiredMessage="#{msgs.code_error_required}">
+					value="#{editItemBean.item.description}" disabled="true">
 				</p:inputText>
 			</div><br/>
 			
 			<div class="box-field">
 				<label for="typeOfProduct">#{msgs['item.typeOfProduct']}</label>
 				<p:inputText id="typeOfProduct" name="typeOfProduct" styleClass="editInput"
-					value="#{createItemBean.item.typeOfProduct}" 
-					requiredMessage="#{msgs.code_error_required}">
+					value="#{editItemBean.item.typeOfProduct}" disabled="true">
 				</p:inputText>
 			</div><br/>
 			
 			<div class="box-field">
 				<label for="catalogNb">#{msgs['item.catalogNb']}</label>
 				<p:inputText id="catalogNb" name="catalogNb" styleClass="editInput"
-					value="#{createItemBean.item.catalogNb}" 
-					requiredMessage="#{msgs.code_error_required}">
+					value="#{editItemBean.item.catalogNb}" disabled="true">
 				</p:inputText>
 			</div><br/>
 			
 			<div class="box-field">
 				<label for="purchasePrice">#{msgs['item.purchasePrice']}</label>
 				<p:inputText id="purchasePrice" name="purchasePrice" styleClass="editInput"
-					value="#{createItemBean.item.purchasePrice}" 
-					requiredMessage="#{msgs.code_error_required}">
+					value="#{editItemBean.item.purchasePrice}" disabled="true">
 				</p:inputText>
 			</div><br/>
 			
 			<div class="box-field">
 				<label for="supplier">#{msgs['item.supplier']}</label>
 				<p:inputText id="supplier" name="supplier" styleClass="editInput"
-					value="#{createItemBean.item.supplier}" 
-					requiredMessage="#{msgs.code_error_required}">
+					value="#{editItemBean.item.supplier}" disabled="true">
 				</p:inputText>
 			</div><br/>
 			
 			<div class="box-field">
 				<label for="quantity">#{msgs['item.quantity']}</label>
 				<p:inputText id="quantity" name="quantity" styleClass="editInput"
-					value="#{createItemBean.item.quantity}" 
-					requiredMessage="#{msgs.code_error_required}">
+					value="#{editItemBean.item.quantity}" disabled="true">
 				</p:inputText>
 			</div><br/>
 
 			<div class="box-field">
-				<p:commandButton ajax="false" id="createItemBtn"
-					styleClass="btn btn-primary createItemBtn"
-					value="#{msgs['button.create']}"
-					action="#{createItemBean.createAction}">
-					<f:param name="projectId" value="#{project.id}"/>
+				<p:commandButton ajax="false" id="editItemBtn"
+					styleClass="btn btn-primary editItemBtn"
+					value="#{msgs['button.delete']}"
+					action="#{editItemBean.deleteAction}">
 				</p:commandButton>
 			</div>
 		</div>

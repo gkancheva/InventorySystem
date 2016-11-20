@@ -1,4 +1,4 @@
-package bg.softuni.web.beans;
+package bg.softuni.web.beans.item;
 
 import java.util.Iterator;
 
@@ -15,33 +15,38 @@ import org.apache.commons.lang3.StringUtils;
 
 import bg.softuni.entity.ItemModel;
 import bg.softuni.service.ItemService;
+import bg.softuni.service.ProjectService;
 import bg.softuni.web.utils.MessageUtils;
 
-@ManagedBean(name = "editItemBean")
+@ManagedBean(name = "createItemBean")
 @ViewScoped
-public class EditItemBean {
-
+public class CreateItemBean {
+	
 	@Inject
 	HttpServletRequest request;
 
 	@EJB
 	ItemService itemService;
 	
-	private ItemModel item;
+	@EJB
+	ProjectService projectService;
 	
+	private ItemModel item;
+
 	@PostConstruct
 	public void init() {
-		String id = request.getParameter("id");
+		item = new ItemModel();
+		String id = request.getParameter("projectId");
 		if(StringUtils.isNotBlank(id) && StringUtils.isNumeric(id)) {
-			item = itemService.findById(Long.valueOf(id));
+			item.setProject(projectService.findById(Long.valueOf(id)));
 		}
 	}
 	
-	public String updateAction() {
-		if(validateInput()) {
+	public String createAction() {
+		if(!validateInput()) {
 			return null;
 		}
-		itemService.update(item);
+		itemService.save(item);
 		return "/page/listProjects?faces-redirect=true";
 	}
 	
@@ -63,7 +68,30 @@ public class EditItemBean {
 			MessageUtils.addErrorMessage("error.required.item.description");
 			hasErrors = true;
 		}
-		return hasErrors;
+		if (StringUtils.isBlank(item.getTypeOfProduct())) {
+			MessageUtils.addErrorMessage("error.required.item.typeOfProduct");
+			hasErrors = true;
+		}
+		
+		if (StringUtils.isBlank(item.getCatalogNb())) {
+			MessageUtils.addErrorMessage("error.required.item.catalogNb");
+			hasErrors = true;
+		}
+		if (StringUtils.isBlank(String.valueOf(item.getQuantity()))) {
+			MessageUtils.addErrorMessage("error.required.item.quantity");
+			hasErrors = true;
+		}
+		
+		if (StringUtils.isBlank(item.getSupplier())) {
+			MessageUtils.addErrorMessage("error.required.item.supplier");
+			hasErrors = true;
+		}
+
+		if (hasErrors) {
+			return false;
+		}
+
+		return true;
 	}
 	
 	public boolean hasErrors() {
@@ -76,4 +104,5 @@ public class EditItemBean {
 		}
 		return false;
 	}
+	
 }

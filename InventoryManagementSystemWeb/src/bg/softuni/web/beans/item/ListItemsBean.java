@@ -1,4 +1,4 @@
-package bg.softuni.web.beans;
+package bg.softuni.web.beans.item;
 
 import java.util.List;
 
@@ -40,6 +40,10 @@ public class ListItemsBean {
 
 	public String createAction() {
 		return "/page/createItem";
+	}
+	
+	public String deleteAction() {
+		return "/page/deleteItem";
 	}
 	
 	public List<ItemModel> findAllItems() {

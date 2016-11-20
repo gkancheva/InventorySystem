@@ -12,6 +12,7 @@ public interface ItemService {
 	ItemModel save(ItemModel entity);
 	ItemModel update(ItemModel entity);
 	void delete (ItemModel entity);
+	void deleteAllItemsOfSpecProject(Long projectId);
 	ItemModel findById(Long id);
 	ItemModel checkIfItemExists(String name, Long id);
 }

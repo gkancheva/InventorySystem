@@ -1,4 +1,4 @@
-package bg.softuni.web.beans;
+package bg.softuni.web.beans.item;
 
 import java.util.Iterator;
 
@@ -13,67 +13,62 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
 
-import bg.softuni.entity.ProjectModel;
-import bg.softuni.service.ProjectService;
-import bg.softuni.service.UserService;
+import bg.softuni.entity.ItemModel;
+import bg.softuni.service.ItemService;
 import bg.softuni.web.utils.MessageUtils;
 
-@ManagedBean(name = "createProjectBean")
+@ManagedBean(name = "editItemBean")
 @ViewScoped
-public class CreateProjectBean {
-	
+public class EditDeleteItemBean {
+
 	@Inject
 	HttpServletRequest request;
 
 	@EJB
-	ProjectService projectService;
+	ItemService itemService;
 	
-	@EJB
-	UserService userService;
+	private ItemModel item;
 	
-	private ProjectModel project;
-
 	@PostConstruct
 	public void init() {
-		project = new ProjectModel();
 		String id = request.getParameter("id");
 		if(StringUtils.isNotBlank(id) && StringUtils.isNumeric(id)) {
-			project.setUser(userService.findById(Long.valueOf(id)));
+			item = itemService.findById(Long.valueOf(id));
 		}
 	}
 	
-	public String createAction() {
-		if(!validateInput()) {
+	public String updateAction() {
+		if(validateInput()) {
 			return null;
 		}
-		projectService.save(project);
+		itemService.update(item);
 		return "/page/listProjects?faces-redirect=true";
 	}
 	
-	public ProjectModel getProject() {
-		return project;
+	public String deleteAction() {
+		itemService.delete(item);
+		return "/page/listProjects?faces-redirect=true";
 	}
 	
-	public void setProject(ProjectModel project) {
-		this.project = project;
+	public ItemModel getItem() {
+		return item;
+	}
+	
+	public void setItem(ItemModel item) {
+		this.item = item;
 	}
 	
 	protected boolean validateInput() {
 		boolean hasErrors = false;
-		if (StringUtils.isBlank(project.getName())) {
-			MessageUtils.addErrorMessage("error.required.project.name");
+		if (StringUtils.isBlank(item.getName())) {
+			MessageUtils.addErrorMessage("error.required.item.name");
 			hasErrors = true;
 		}
-		if (StringUtils.isBlank(project.getCustomer())) {
-			MessageUtils.addErrorMessage("error.required.project.customer");
+		if (StringUtils.isBlank(item.getDescription())) {
+			MessageUtils.addErrorMessage("error.required.item.description");
 			hasErrors = true;
 		}
-
-		if (hasErrors) {
-			return false;
-		}
-
-		return true;
+		return hasErrors;
 	}
 	
 	public boolean hasErrors() {
@@ -86,5 +81,4 @@ public class CreateProjectBean {
 		}
 		return false;
 	}
-	
 }

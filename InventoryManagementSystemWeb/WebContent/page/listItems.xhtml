@@ -109,6 +109,14 @@
 							title="#{msgs['button.edit']}" alt="#{msgs['button.edit']}" 
 							width="20" height="20"/>
 					</p:commandLink>
+					
+					<p:commandLink ajax="false" process="@this" immediate="true"
+						action="#{listItemsBean.deleteAction()}" id="deleteButton">
+						<f:param name="id" value="#{item.id}"/>
+						<h:graphicImage value="/img/delete.png"
+							title="#{msgs['button.delete']}" alt="#{msgs['button.delete']}" 
+							width="20" height="20"/>
+					</p:commandLink>
 				</p:column>
 			</p:dataTable>
 		</h:panelGroup>

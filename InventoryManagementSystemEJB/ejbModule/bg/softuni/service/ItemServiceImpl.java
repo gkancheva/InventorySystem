@@ -44,7 +44,18 @@ public class ItemServiceImpl implements ItemService{
 
 	@Override
 	public void delete(ItemModel entity) {
-		entityManager.remove(entity);
+		Query query = entityManager.createQuery("DELETE FROM ItemModel item WHERE id = :id");
+		query.setParameter("id", entity.getId()).executeUpdate();
+		if (entityManager.contains(entity)){
+			entityManager.remove(entity);
+		}
+	}
+	
+	@Override
+	public void deleteAllItemsOfSpecProject(Long projectId) {
+        Query query = entityManager.createNativeQuery(
+        	      "DELETE FROM items WHERE project_id = :id");
+        query.setParameter("id", projectId).executeUpdate();
 	}
 
 	@Override
@@ -74,5 +85,4 @@ public class ItemServiceImpl implements ItemService{
             return null;
         }
 	}
-
 }

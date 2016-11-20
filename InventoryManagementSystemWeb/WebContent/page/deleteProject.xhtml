@@ -1,0 +1,51 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:pe="http://primefaces.org/ui/extensions"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
+
+<h:head>
+	<link href="#{application.contextPath}/css/common.css" rel="stylesheet" type="text/css" />
+	<link href="#{application.contextPath}/css/bootstrap.css" rel="stylesheet" type="text/css" />
+</h:head>
+<title>#{msgs['default.title']}</title>
+<body id="editBody">
+	<h:form styleClass="editForm">
+		<div class="col-md-3 editBox">
+			<h3 class="text-primary bold upper headPaddings">
+				<h:outputText value="#{msgs['delete.project.title']}" escape="false" />
+			</h3>
+			<div class="box-field">
+				<label for="name">#{msgs['label.project.name']}</label>
+				<p:inputText id="name" name="name" styleClass="editInput"
+					value="#{editProjectBean.project.name}" disabled="true">
+				</p:inputText>
+			</div><br/>
+			
+			<div class="box-field">
+				<label for="customer">#{msgs['label.project.customer']}</label>
+				<p:inputText id="customer" name="customer" styleClass="editInput"
+					value="#{editProjectBean.project.customer}" disabled="true">
+				</p:inputText>
+			</div><br/>
+			
+			<div class="text-primary headPaddings">
+				<h:outputText
+					value="#{msgs['info.project.delete']}" disabled="true">
+				</h:outputText>
+			</div><br/>
+			
+			<div class="box-field">
+				<p:commandButton ajax="false" id="deleteProjectBtn"
+					styleClass="btn btn-primary deleteProjectBtn"
+					value="#{msgs['button.delete']}"
+					action="#{editProjectBean.deleteAction}">
+				</p:commandButton>
+			</div>
+		</div>
+	</h:form>
+</body>
+</html>

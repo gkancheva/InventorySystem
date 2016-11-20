@@ -3,6 +3,7 @@ loginBody {
 	height: 100%;
 	display: table;
 	width: 100%;
+	min-width: 600px;
 }
 
 #commonBody {
@@ -59,9 +60,6 @@ loginBody {
 	margin-left: 5px;
 }
 
-.editlabel{
-}
-
 html, body {
 	margin: 0;
 	padding: 0;
@@ -79,10 +77,11 @@ body {
 #mainPageContent {
 	/* height: 100%; */
 	vertical-align: middle;
-	margin-top: 12%;
+	margin-top: 5%;
 	width: 20%;
 	display: inline-block;
 	text-align: left;
+	min-width: 200px;
 }
 
 #sidebar {
@@ -126,44 +125,13 @@ body {
 	margin: 0px;
 }
 
-.forgotPassForm .ui-messages-error-summary {
-	margin-left: 0px;
-}
-
-.resetPassForm ul {
-	margin: 0px;
-}
-
-.resetPassForm .ui-messages-error-summary {
-	margin-left: 0px;
-}
-
 .loginInputField {
 	margin-bottom: 0.1%;
 	width: 100%;
 }
 
-.digiDialer {
-	background: #1C222B;
-	border-radius: 0 0 4px 4px;
-	width: 100%;
-	display: table;
-	height: 50px;
-}
-
 .loginMessage {
 	margin-bottom: 0px;
-}
-
-.digiDialerImg {
-	text-align: right;
-	margin: 10px 0;
-}
-
-.loginFooterDialerLogo {
-	vertical-align: middle; . logoDiv { width : 200px;
-	margin: auto;
-	overflow: hidden;
 }
 
 .leftSidebarLogo {
@@ -172,14 +140,6 @@ body {
 	vertical-align: middle;
 	display: block;
 	padding-top: 40px;
-}
-
-.leftMenuIcons {
-	display: block;
-	margin-top: 15px;
-	margin-left: auto;
-	margin-right: auto;
-	margin-bottom: -20px;
 }
 
 .floatRight {
@@ -310,7 +270,6 @@ body {
 decorated {
 	border-radius: 5px;
 	box-shadow: 1px 1px 1px 1px #dddddd;
-	/* margin-right: 15px; */
 	padding-left: 0px;
 	padding-right: 0px;
 	background-color: white;

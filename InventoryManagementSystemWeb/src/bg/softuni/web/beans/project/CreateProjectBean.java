@@ -1,4 +1,4 @@
-package bg.softuni.web.beans;
+package bg.softuni.web.beans.project;
 
 import java.util.Iterator;
 
@@ -15,33 +15,38 @@ import org.apache.commons.lang3.StringUtils;
 
 import bg.softuni.entity.ProjectModel;
 import bg.softuni.service.ProjectService;
+import bg.softuni.service.UserService;
 import bg.softuni.web.utils.MessageUtils;
 
-@ManagedBean(name = "editProjectBean")
+@ManagedBean(name = "createProjectBean")
 @ViewScoped
-public class EditProjectBean {
-
+public class CreateProjectBean {
+	
 	@Inject
 	HttpServletRequest request;
 
 	@EJB
 	ProjectService projectService;
 	
-	private ProjectModel project;
+	@EJB
+	UserService userService;
 	
+	private ProjectModel project;
+
 	@PostConstruct
 	public void init() {
+		project = new ProjectModel();
 		String id = request.getParameter("id");
 		if(StringUtils.isNotBlank(id) && StringUtils.isNumeric(id)) {
-			project = projectService.findById(Long.valueOf(id));
+			project.setUser(userService.findById(Long.valueOf(id)));
 		}
 	}
 	
-	public String updateAction() {
-		if(validateInput()) {
+	public String createAction() {
+		if(!validateInput()) {
 			return null;
 		}
-		projectService.update(project);
+		projectService.save(project);
 		return "/page/listProjects?faces-redirect=true";
 	}
 	
@@ -63,7 +68,12 @@ public class EditProjectBean {
 			MessageUtils.addErrorMessage("error.required.project.customer");
 			hasErrors = true;
 		}
-		return hasErrors;
+
+		if (hasErrors) {
+			return false;
+		}
+
+		return true;
 	}
 	
 	public boolean hasErrors() {
