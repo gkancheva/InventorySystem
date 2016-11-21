@@ -10,9 +10,6 @@ import javax.persistence.Query;
 
 import bg.softuni.entity.UserModel;
 
-/**
- * Session Bean implementation class UserServiceImpl
- */
 @Stateless
 public class UserServiceImpl implements UserService {
 
@@ -70,7 +67,6 @@ public class UserServiceImpl implements UserService {
         try {
             return (UserModel) q.getSingleResult();
         } catch (NoResultException nre) {
-            // the user doesn't exist
             return null;
         }
     }
@@ -90,7 +86,6 @@ public class UserServiceImpl implements UserService {
         try {
             return (UserModel) q.getSingleResult();
         } catch (NoResultException nre) {
-            // the user does not exist
             return null;
         }
     }
